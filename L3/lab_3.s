@@ -17,9 +17,9 @@
 	.data
 
 vector:					# vector of items
-	.long	10,70,50,90,60,80,40,20,0,30
+	.long	10,12370,42350,90,60,132,909,80,40,20,0,30
 count:					# count of items
-	.long	( . - vector ) >> 1
+	.quad	( . - vector ) >> 2
 item:	
 	.ascii	"Item "
 line_no:	
@@ -44,11 +44,15 @@ dataend:
 	.global _start
 
 	.macro disp_str_64 file_id, address, length
+	PUSH	%rcx	# save registries
+	PUSH	%rsi
 	mov $write_64, %rax
 	mov \file_id, %rdi
 	mov \address, %rsi
 	mov \length, %rdx
 	syscall
+	POP	%rsi	# restore
+	POP	%rcx
 	.endm
 
 	.macro exit_prog_64 exit_code
@@ -113,11 +117,14 @@ prev_item:
 #
 	.type make_string,@function
 make_string:
-	MOV	%esi,%eax		# convert index of vector element to string
+	MOV	%esi,%eax		# convert index of vector element to str
 	MOV	$line_no + 2,%rdi
+	MOVW	$0x2020,line_no		# clear whitespace
 	CALL	num2dec
-	MOV	%ebx,%eax		# convert value of vector element to string
+
+	MOV	%ebx,%eax		# convert value of vector element to str
 	MOV	$number + 4,%rdi
+	MOVL	$0x20202020,number	# clear to whitespace
 	CALL	num2dec
 
 	RET				# return to disp_vector function
@@ -135,7 +142,7 @@ num2dec:
 nextdig:			
 	XOR	%edx,%edx	# EDX = 0
 	DIV	%ebx		# EDX:EAX div EBX
-	ADD	$'0',%dl	# convert remainder (in EDX) to character
+	ADD	$'0',%dl	# convert remainder (in EDX) to char
 	# MOV to address from (RDI) not to RDI itself
 	MOV	%dl,(%rdi)	# *(RDI) = character (decimal digit)
 	CMP	$0,%eax		# quotient in EAX 
@@ -148,3 +155,4 @@ empty:
 
 	RET			# return to make_string function
 #----------------------------------------------------------------
+
