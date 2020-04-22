@@ -11,9 +11,9 @@
 	.data
 	
 fmt_1:
-	.asciz	"Value = %d\n"		# format string
+	.asciz	"Value = %d\n"		# format string = .string
 val_1:
-	.long	6			# long number
+	.long	0x6			# long number
 fmt_prompt:
 	.string	"Number: "		# format string for prompt
 fmt_scanf:
@@ -45,79 +45,79 @@ fmt_env:
 #----------------------------------------------------------------
 	
 main:
-#	push %rbp
+	push %rbp
 
-#	mov %edi, argc
-#	mov %edi, argc_tmp
-#	mov %rsi, argv
-#	mov %rdx, env
+	mov %edi, argc
+	mov %edi, argc_tmp
+	mov %rsi, argv
+	mov %rdx, env
 
-#	mov $fmt_prompt, %rdi	# printf( fmt ) - 1st argument to %rdi;
-#	xor %rax, %rax		# printf - number of vector registers to %al 
-#	call printf
+	mov $fmt_prompt, %rdi	# printf( fmt ) - 1st argument to %rdi;
+	xor %rax, %rax		# printf - number of vector registers to %al 
+	call printf
 
-#	mov $fmt_scanf, %rdi
-#	mov $val_1, %rsi
-#	mov $0, %al
-#	call scanf
-#	mov %eax, ok_num
+	mov $fmt_scanf, %rdi
+	mov $val_1, %rsi
+	mov $0, %al
+	call scanf
+	mov %eax, ok_num
 
-#	mov $fmt_lf, %rdi	# printf( fmt ) - 1st argument to %rdi;
-#	xor %rax, %rax		# printf - number of vector registers to %al 
-#	call printf
+	mov $fmt_lf, %rdi	# printf( fmt ) - 1st argument to %rdi;
+	xor %rax, %rax		# printf - number of vector registers to %al 
+	call printf
 
-#	cmp $1, ok_num
-#	jnz no_more_numbers	
+	cmp $1, ok_num
+	jnz no_more_numbers	
 
 	mov val_1, %rsi		# printf( char *fmt, long num ) - 2nd argument to %rsi;
 	mov $fmt_1, %rdi	# printf( char *fmt, long num ) - 1st argument to %rdi;
-	xor %rax, %rax		# printf - number of vector registers to %al 
+	xor %rax, %rax		# printf - number of vector registers to %al =0
 	call printf
 
 no_more_numbers:
 
-#	mov argc, %rsi		# printf( fmt, num ) - 2nd argument to %rsi;
-#	mov $fmt_argc, %rdi	# printf( fmt, num ) - 1st argument to %rdi;
-#	xor %rax, %rax		# printf - number of vector registers to %al 
-#	call printf
+	mov argc, %rsi		# printf( fmt, num ) - 2nd argument to %rsi;
+	mov $fmt_argc, %rdi	# printf( fmt, num ) - 1st argument to %rdi;
+	xor %rax, %rax		# printf - number of vector registers to %al 
+	call printf
 
 
-#	mov argv, %rbp		# %rbp = argv;
+	mov argv, %rbp		# %rbp = argv;
 
 next_argv:
-#	mov (%rbp), %rdx	# printf( fmt, num, str ) - 3rd argument to %rdx;
-#	mov argc, %esi
-#	sub argc_tmp, %esi	# printf( fmt, num, str ) - 2nd argument to %rsi;
-#	mov $fmt_argv, %rdi	# printf( fmt, num, str ) - 1st argument to %rdi;
-#	xor %rax, %rax		# printf - number of vector registers to %al 
-#	call printf
+	mov (%rbp), %rdx	# printf(fmt, num, str) - 3rd argument to %rdx;
+	mov argc, %esi
+	sub argc_tmp, %esi	# printf(fmt, num, str) - 2nd argument to %rsi;
+	mov $fmt_argv, %rdi	# printf(fmt, num, str) - 1st argument to %rdi;
+	xor %rax, %rax		# printf - number of vector registers to %al 
+	call printf
 	
-#	add $8, %rbp		# next argv
-#	decl argc_tmp		# argc_tmp--;
-#	jnz next_argv		# 
+	add $8, %rbp		# next argv
+	decl argc_tmp		# argc_tmp--;
+	jnz next_argv		# 
 
 
-#	mov env, %rbp		# %rbp = env;
+	mov env, %rbp		# %rbp = env;
 
 next_env:
-#	cmp $0,(%rbp)		# while( env[i] != NULL )
-#	jz no_more_env
-#	mov (%rbp), %rdx	# printf( fmt, num, str ) - 3rd argument to %rdx;
-#	mov argc_tmp, %esi	# printf( fmt, num, str ) - 2nd argument to %rsi;
-#	mov $fmt_env, %rdi	# printf( fmt, num, str ) - 1st argument to %rdi;
-#	xor %rax, %rax		# printf - number of vector registers to %al 
-#	call printf
+	cmp $0,(%rbp)		# while( env[i] != NULL )
+	jz no_more_env
+	mov (%rbp), %rdx	# printf(fmt, num, str) - 3rd argument to %rdx;
+	mov argc_tmp, %esi	# printf(fmt, num, str) - 2nd argument to %rsi;
+	mov $fmt_env, %rdi	# printf(fmt, num, str) - 1st argument to %rdi;
+	xor %rax, %rax		# printf - number of vector registers to %al 
+	call printf
 	
-#	add $8, %rbp		# next env
-#	incl argc_tmp		# argc_tmp++;
-#	jmp next_env
+	add $8, %rbp		# next env
+	incl argc_tmp		# argc_tmp++;
+	jmp next_env
 
 no_more_env:
 
-	xor %rdi, %rdi		# exit( code ) - 1st argument to %rdi
-	call exit
+#	xor %rdi, %rdi		# exit( code ) - 1st argument to %rdi
+#	call exit
  
-#	pop %rbp
+	pop %rbp
 
 	ret
 
