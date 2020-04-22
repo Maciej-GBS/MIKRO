@@ -4,11 +4,11 @@
 
 	.text
 	.type sum3a, @function
-	.globl sum3a	
+	.global sum3a	
 
 sum3a:	
-	mov %edi, %eax		# 1st parameter to %rax
-	add %esi, %eax		# add 2nd parameter
-	add %edx, %eax		# add 3rd parameter
+	mov %rdi, %rax		# 1st parameter to %rax
+	add %rsi, %rax		# add 2nd parameter
+	add %rdx, %rax		# add 3rd parameter
 
 	ret			# return sum

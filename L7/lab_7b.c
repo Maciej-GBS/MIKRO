@@ -17,7 +17,7 @@ long sum3a( long a, long b, long c );
 
 void main( void )
 {
-	long a = 5, b = 2, c = 1;
+	long a = -5, b = 2, c = 1;
 
 	printf( "Sum3c(%ld, %ld, %ld) = %ld\n", a, b, c, sum3c( a, b, c ) );
 	printf( "Sum3a(%ld, %ld, %ld) = %ld\n", a, b, c, sum3a( a, b, c ) );
