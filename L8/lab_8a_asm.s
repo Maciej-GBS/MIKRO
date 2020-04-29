@@ -7,19 +7,19 @@
 	.globl facta	
 
 facta:
-	mov $1, %eax		# result
+	mov $1, %rax		# result
 
-	cmp %eax, %edi		# rdi <= 1 ?
+	cmp %rax, %rdi		# rdi <= 1 ?
 	jbe f_e			# yes
 
-	push %rdi		# store parameter (k)
+	push %rdi		# store parameter (k) - only 64bit may be pushed
 
-	dec %edi		# new parameter (k-1)
+	dec %rdi		# new parameter (k-1)
 	call facta		# (k-1)!
 
 	pop %rdi		# restore parameter (k)
 
-	mul %edi		# k! = (k-1)! * k 
+	mul %rdi		# k! = (k-1)! * k 
 
 f_e:	ret
 

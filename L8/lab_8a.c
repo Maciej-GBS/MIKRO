@@ -8,7 +8,7 @@
 
 #include <stdio.h>
 
-int factc( unsigned int k )
+long factc( unsigned long k )
 {
 	if( k <= 1 )
 		return 1;
@@ -16,15 +16,15 @@ int factc( unsigned int k )
 		return k * factc( k - 1 );
 }
 
-int facta( unsigned int k );
+long facta( unsigned long k );
 
 void main( void )
 {
  int i;
 
- for( i = 1; i <= 6; i++ )
+ for( i = 1; i <= 30; i++ )
  {
-   printf( "FactC(%d) = %d\n", i, factc(i) );
-   printf( "FactA(%d) = %d\n", i, facta(i) );
+   printf( "FactC(%d) = %ld\n", i, factc(i) );
+   printf( "FactA(%d) = %ld\n", i, facta(i) );
  }
 }
