@@ -8,20 +8,21 @@
 
 #include <stdio.h>
 
-int factc( unsigned int k )
+long factc( unsigned int k )
 {
-	int result = 1;
+	long result = 1;
 	while( k > 1 )
 	   result *= k--;
 	return result;			
 }
 
-int facta( unsigned int k );
+long facta( unsigned int k );
 
 void main( void )
 {
- int i;
+ int i, m;
+ scanf("%d", &m);
 
- for( i = 1; i <= 6; i++ )
-   printf( "FactC(%d) = %d FactA(%d) = %d\n", i, factc(i), i, facta(i) );
+ for( i = 1; i <= m; i++ )
+   printf( "FactC(%d) = %ld \tFactA(%d) = %ld\n", i, factc(i), i, facta(i) );
 }

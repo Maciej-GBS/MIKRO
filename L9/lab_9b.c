@@ -8,11 +8,11 @@
 
 #include <stdio.h>
 
-int fibc( unsigned int k )
+long fibc( unsigned int k )
 {
-	int fold = 0;
-	int fnew = 1;
-	int sum;
+	long fold = 0;
+	long fnew = 1;
+	long sum;
 
 	if( k == 0 ) return fold;
 	else if( k == 1 ) return fnew;
@@ -29,13 +29,13 @@ int fibc( unsigned int k )
 	}
 }
 
-int fiba( unsigned int k );
-
+long fiba( unsigned int k );
 
 void main( void )
 {
- int i;
+ int i, m;
+ scanf("%d", &m);
 
- for( i = 0; i <= 10; i++ )
-   printf( "FibC(%d) = %d FibA(%d) = %d\n", i, fibc( i ), i, fiba( i ) );
+ for( i = 0; i <= m; i++ )
+   printf( "FibC(%d) = %ld \tFibA(%d) = %ld\n", i, fibc( i ), i, fiba( i ) );
 }

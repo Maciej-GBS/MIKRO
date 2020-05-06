@@ -7,31 +7,31 @@
 
 fiba:	push %rbx	# store on stack
 
-	mov $0, %ebx	# old
-	mov $1, %ecx	# new
+	mov $0, %rbx	# old
+	mov $1, %rcx	# new
 
-	cmp %ebx, %edi	# k == 0 ?
+	cmp %rbx, %rdi	# k == 0 ?
 	jz	f_0	# yes, so jump
-	cmp %ecx, %edi	# k == 1 ?
+	cmp %rcx, %rdi	# k == 1 ?
 	jz	f_1	# yes, so jump
 
 next:
-	mov %ebx, %eax	# sum = old
-	add %ecx, %eax	# sum += new
-	mov %ecx, %ebx	# old = new
-	mov %eax, %ecx	# new = sum
-	dec %edi	# k--
-	cmp $1, %edi	# k > 1 ?
+	mov %rbx, %rax	# sum = old
+	add %rcx, %rax	# sum += new
+	mov %rcx, %rbx	# old = new
+	mov %rax, %rcx	# new = sum
+	dec %rdi	# k--
+	cmp $1, %rdi	# k > 1 ?
 	ja next		# yes, so jump
 
 f_e:	pop %rbx	# restore original
 	ret
 
 f_0:
-	mov %ebx, %eax	# return 0
+	mov %rbx, %rax	# return 0
 	jmp f_e
 
 f_1:
-	mov %ecx, %eax	# return 1
+	mov %rcx, %rax	# return 1
 	jmp f_e
 

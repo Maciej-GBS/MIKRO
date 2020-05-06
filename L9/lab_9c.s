@@ -27,11 +27,15 @@ argc_tmp:
 	.quad 0
 
 	.text
-	.global _start
+	.global main
 
-_start:
+main:
 
-	mov (%rsp), %rax	# argc is here
+	#mov (%rsp), %rax	# argc is here
+	# main
+	mov %rdi, %rax
+	mov %rsi, argv
+	mov %rdx, env
 
 	mov %rax, argc		# store value of argc
 	mov %rax, argc_tmp
@@ -41,9 +45,10 @@ _start:
 	mov $0, %al
 	call printf		# display value of argc
 
-	mov %rsp, %rbx		# use rbx as a pointer
-	add $8, %rbx		# argv[] is here
-	mov %rbx, argv		# store address of argv[]
+	#mov %rsp, %rbx		# use rbx as a pointer
+	#add $8, %rbx		# argv[] is here
+	#mov %rbx, argv		# store address of argv[]
+	mov argv, %rbx
 
 next_argv:
 
@@ -63,8 +68,9 @@ next_argv:
 	mov $0, %al
 	call printf		# display separator
 
-	add $8, %rbx		# env[] is here - skip zero/NULL
-	mov %rbx, env		# store address of env[]
+	#add $8, %rbx		# env[] is here - skip zero/NULL
+	#mov %rbx, env		# store address of env[]
+	mov env, %rbx
 
 next_env:
 	cmp $0,(%rbx)		# is env[i] == NULL
