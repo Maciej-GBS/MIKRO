@@ -41,6 +41,9 @@ roots_fmt_str:
 	.global main
 	
 main:
+	# printf and scanf are sensitive for stack aligement (16 bytes)
+	# return code is 8 bytes long and appears on each function entry
+	# rsp is stack pointer
 	sub $8, %rsp		# align the stack
 
 	FINIT			# FPU initialization
