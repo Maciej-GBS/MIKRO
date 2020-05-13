@@ -8,6 +8,8 @@
 #----------------------------------------------------------------
 
 	.data
+cntr:
+	.long		0
 i:				# loop counter
 	.long		1
 x:				# function argument
@@ -22,6 +24,8 @@ sqr_c:				# function result (x87 software approximation)
 	.double		0.0
 two:				# constant
 	.long		2
+cnt_fmt:
+	.asciz		"Newton iterations = %d\n"
 fmt_str:
 	.asciz		"Square root of %lf = %.20lf\n"
 
@@ -30,18 +34,19 @@ fmt_str:
 	.global main
 	
 main:
-#	sub $8, %rsp
+	#sub $8, %rsp
 
 	FINIT			# FPU initialization
 next:
-	FILDL	i		# i -> ST(0)
+	# L long : S single (float)
+	FILDL	i		# i -> ST(0) : ST=stack
 	FSTPL	x		# ST(0) -> x & pop from stack
 
 	FLDL	x		# function argument -> ST(0)
 	FSQRT			# sqrt( ST(0) ) -> ST(0)
 	FSTPL	sqr_a		# ST(0) -> sqr_a  & pop from stack
 
-	FLDL	sqr_a		# load & display first result
+	FLDL	sqr_a		# load sqr_a -> ST(0)
 	FSTPL	y
 
 	call	disp		# display x, y
@@ -57,7 +62,10 @@ next:
 
 	FLDL	x		# first approximation (a0) -> ST(0)
 
+	movl $0, cntr
 iter:
+	incl	cntr
+
 	FLDL	x		# function argument -> ST(0), ak in ST(1)
 	FDIV	%ST(1), %ST(0)	# ST(0)/ST(1) -> ST(0)    x/ak
 	FADD	%ST(1), %ST(0)	# ST(0)+ST(1) -> ST(0)    ak+x/ak
@@ -72,20 +80,27 @@ iter:
 	FLDL	sqr_c		# load & display second result
 	FSTPL	y
 
-	call	disp		# display x, y
+	CALL	disp		# display x, y
 
+	mov cntr, %rsi
+	mov $cnt_fmt,%rdi
+	mov $0,%al
+	call printf
+
+	# repeat all for the next arg
 	incl	i		# next argument
 	cmpl	$10, i		# enough ?
 	jbe	next
 				#------------------------------
 	mov $0, %rdi		# the end
-	call	exit
+	#call	exit
 	
-#	add $8, %rsp
+	#add $8, %rsp
 	ret
 
 	.type	disp, @function	# printf( fmt_str, x, y );
 disp:
+	# xmm rejestry jednostki SSE dla floating point
 	movq	x, %xmm0	# 1st double arg for printf
 	movq	y, %xmm1	# 2nd double arg for printf
 	mov	$fmt_str, %rdi	# 1st integer arg for printf

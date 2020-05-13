@@ -24,7 +24,7 @@ x2:
 	.double		0.0
 
 coeff_fmt_str:
-	.asciz	"Coefficients of equation:\nA = %lf  B = %lf  C = %lf\n"
+	.asciz	"Equation:\nAx^2 + Bx + C\n %lfx^2 + %lfx + %lf\n"
 delta_fmt_str:
 	.asciz	"Delta = %lf\n"
 noroots_fmt_str:
@@ -41,7 +41,7 @@ roots_fmt_str:
 	.global main
 	
 main:
-#	sub $8, %rsp		# align the stack
+	sub $8, %rsp		# align the stack
 
 	FINIT			# FPU initialization
 				#------------------------------
@@ -68,7 +68,7 @@ main:
 	mov	$1, %al
 	call	printf
 				#------------------------------
-	FLDZ			# 0 -> ST(0)	
+	FLDZ			# 0 -> ST(0) pushes onto stack!
 	FLDL	delta		# delta -> ST(0), 0 in ST(1)
 	FCOMI	%ST(1)		# delta ? 0
 	FFREE	%ST(1)		# free ST(1)
@@ -118,8 +118,8 @@ compute_roots:			#------------------------------
 
 the_end:			#------------------------------
 	mov	$0, %rdi	# the end
-	call	exit
+	#call	exit
 
-#	add	$8, %rsp
+	add	$8, %rsp
 	ret
 
