@@ -10,8 +10,8 @@
 #include <sys/time.h>
 #include <math.h>
 
-#define BASE			2.0
-#define LOG_OF_ITERATIONS	16
+#define BASE			10.0
+#define LOG_OF_ITERATIONS	9
 
 
 double fun_a( long int iter );		// function in lab_11.s

@@ -63,6 +63,8 @@ fun_b:
 	shr $2, %rdi		# four terms are computed in parallel
 	inc %rdi		# quarter of iterations is enough
 
+	# ss, ps - operacje SSE
+	# ss operacje nierównoległe
 	movaps	denom_f, %xmm5	# denominators to xmm5
 	movaps	numer_f, %xmm2	# numerators to xmm2
 	movaps	add8_f, %xmm3	# differences to xmm3
