@@ -45,19 +45,19 @@ _start:
 	xor %r14, %r14		# number = 0;
 
 again:
-#	mov %r14b, %al
-#	call num2hex		# ax = hex_code( al );
-#	movw %ax,$hex_str
+	mov %r14b, %al
+	call num2hex		# ax = hex_code( al );
+	movw %ax,hex_str
 
 	disp_str_64 $stdout, $hex_str, $3
-
-#	mov %r14, %rax		# if( !(number % 16) ) newline();
-#	and $15, %rax
-#	jnz skip
-#	disp_str_64 $stdout, $new_line, $1
-skip:
-
 	inc %r14		# number++;
+
+	mov %r14, %rax		# if( !(number % 16) ) newline();
+	and $15, %rax
+	jnz skip
+	disp_str_64 $stdout, $new_line, $1
+
+skip:
 
 	dec %r15		# counter--;
 	jnz again
@@ -73,13 +73,13 @@ theend:
 	.type num2hex,@function
 
 num2hex:
-	MOVB	tmp,%al
+	#MOVB tmp,%al
 
-	MOVB	tmp,%al		# first nibble
+	MOVB	%al, tmp		# first nibble
 	ANDB	$0x0F,%al
 	CMPB	$10,%al
 	JB	digit1
-	ADDB	$('A'-0x10),%al
+	ADDB	$('A'- 0xA),%al
 	JMP	insert1
 digit1:
 	ADDB	$'0',%al
@@ -87,13 +87,14 @@ insert1:
 	MOVB	%al,%ah
 
 	MOVB	tmp,%al		# second nibble
-	SHR	$3,%al
+	SHR	$4,%al
 	CMPB	$10,%al
 	JB	digit2
-	ADDB	$('A'-0x10),%al
+	ADDB	$('A'- 0xA),%al
 	JMP	insert2
 digit2:
-	ADDB	$'O',%al
+	ADDB	$'0',%al
 insert2:
 	RET
 	
+
