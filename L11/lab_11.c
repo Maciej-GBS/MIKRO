@@ -11,7 +11,7 @@
 #include <math.h>
 
 #define BASE			10.0
-#define LOG_OF_ITERATIONS	9
+#define LOG_OF_ITERATIONS	10
 
 
 double fun_a( long int iter );		// function in lab_11.s

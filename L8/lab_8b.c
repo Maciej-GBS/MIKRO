@@ -9,26 +9,16 @@
 
 #include <stdio.h>
 
-//long nest_lev;
-long values[100] = {0};
+long nest_lev;
 
 long fibc( unsigned int k )
 {
-	//nest_lev++;
-	if (values[k] > 0)
-		return values[k];
-	if( k == 0 ) {
-		values[0] = 0;
+	nest_lev++;
+	if (k == 0)
 		return 0;
-	}
-	else if( k == 1 ) {
-		values[1] = 1;
+	else if (k == 1)
 		return 1;
-	}
-	else {
-		values[k] = fibc( k - 2 ) + fibc( k - 1 );
-		return values[k];
-	}
+	return fibc( k - 2 ) + fibc( k - 1 );
 }
 
 long fiba( unsigned int k );
@@ -37,11 +27,11 @@ void main( void )
 {
  int i;
 
- for( i = 0; i <= 100; i++ )
+ for( i = 0; i <= 30; i++ )
  {
-   //nest_lev = 0;
+   nest_lev = 0;
    printf( "FibC( %d ) = %ld\n", i, fibc( i ) );
-   //printf( "FibA( %d ) = %ld\n", i, fiba( i ) );
-   //printf( "Nesting level = %ld\n", nest_lev );
+   printf( "FibA( %d ) = %ld\n", i, fiba( i ) );
+   printf( "Nesting level = %ld\n", nest_lev );
  }
 }
